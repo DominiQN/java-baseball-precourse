@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class StringTest {
     @DisplayName("문자열을 콤마(,)로 분리하면, 콤마를 기준으로 문자열이 분리되어 배열로 반환된다.")
@@ -45,5 +46,16 @@ public class StringTest {
         final char result = targetString.charAt(givenIndex);
 
         assertThat(result).isEqualTo('b');
+    }
+
+    @DisplayName("charAt() 인자에 위치 값을 벗어나는 index를 집어 넣으면 범위를 벗어났다는 예외를 던진다.")
+    @Test
+    void charAtThrowIndexOutOfBoundsException() {
+        final String targetString = "abc";
+        final int givenIndex = 3;
+
+        assertThatThrownBy(() -> targetString.charAt(givenIndex))
+                .isInstanceOf(StringIndexOutOfBoundsException.class)
+                .hasMessage("String index out of range: 3");
     }
 }
