@@ -5,6 +5,8 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,5 +30,11 @@ public class SetTest {
         final int actual = numbers.size();
 
         assertThat(actual).isEqualTo(3);
+    }
+
+    @ParameterizedTest(name = "Set에 [{0}]을 요소로 포함한다.")
+    @ValueSource(ints = {1, 2, 3})
+    void contains(int expectedElement) {
+        assertThat(numbers.contains(expectedElement)).isTrue();
     }
 }
