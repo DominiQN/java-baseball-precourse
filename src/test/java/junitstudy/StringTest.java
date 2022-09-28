@@ -56,6 +56,6 @@ public class StringTest {
 
         assertThatThrownBy(() -> targetString.charAt(givenIndex))
                 .isInstanceOf(StringIndexOutOfBoundsException.class)
-                .hasMessage("String index out of range: 3");
+                .hasMessageMatching("String index out of range: \\w+");
     }
 }
