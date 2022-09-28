@@ -35,4 +35,15 @@ public class StringTest {
 
         assertThat(result).isEqualTo("1,2");
     }
+
+    @DisplayName("charAt()은 index에 해당하는 문자를 반환한다.")
+    @Test
+    void charAt() {
+        final String targetString = "abc";
+        final int givenIndex = 1;
+
+        final char result = targetString.charAt(givenIndex);
+
+        assertThat(result).isEqualTo('b');
+    }
 }
