@@ -15,4 +15,14 @@ public class StringTest {
 
         assertThat(splitStrings).containsExactly("1", "2");
     }
+
+    @DisplayName("콤마(,)가 포함되지 않은 문자열을 콤마로 분리하면, 원 문자열 하나가 포함된 배열이 반환된다.")
+    @Test
+    void splitSingle() {
+        final String targetString = "1";
+
+        final String[] splitStrings = targetString.split(",");
+
+        assertThat(splitStrings).containsExactly("1");
+    }
 }
