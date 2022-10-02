@@ -5,8 +5,6 @@ public enum Hint {
     BALL,
     FOUL;
 
-    public static final int NOT_FOUND = -1;
-
     public static Hint byIndexes(int guessDigitIndex, int realDigitIndex) {
         validateGuessDigitIndex(guessDigitIndex);
 
