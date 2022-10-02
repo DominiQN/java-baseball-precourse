@@ -73,7 +73,7 @@ class DigitsTest {
     void hint(int guess1st, int guess2nd, int guess3rd, int expectedStrikes, int expectedBalls) {
         final Digits secret = digitsOf(4, 2, 5);
         final Digits guessDigits = digitsOf(guess1st, guess2nd, guess3rd);
-        final GuessAnswer expectedAnswer = new GuessAnswer(expectedStrikes, expectedBalls);
+        final GuessAnswer expectedAnswer = new GuessAnswer(secret.size(), expectedStrikes, expectedBalls);
         final GuessAnswer actualAnswer = secret.guess(guessDigits);
 
         assertThat(actualAnswer).isEqualTo(expectedAnswer);

@@ -1,6 +1,7 @@
 package baseball.domain.digits;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.Arrays;
@@ -14,16 +15,28 @@ class GuessAnswerTest {
     @DisplayName("같은 값을 가지면 추측결과는 동일하다.")
     @Test
     void equality() {
-        final GuessAnswer one = new GuessAnswer(1, 0);
-        final GuessAnswer other = new GuessAnswer(1, 0);
+        final GuessAnswer one = new GuessAnswer(3, 1, 0);
+        final GuessAnswer other = new GuessAnswer(3, 1, 0);
 
         assertThat(one).isEqualTo(other);
+    }
+
+    @DisplayName("스트라이크와 볼 개수의 합이 비밀번호의 길이보다 클 수 없다.")
+    @Test
+    void illegalCounts() {
+        final int secretNumberSize = 3;
+        final int strikeCount = 2;
+        final int ballCount = 2;
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> new GuessAnswer(secretNumberSize, strikeCount, ballCount))
+                .withMessage("Hint counts cannot be larger than secret number size!");
     }
 
     @DisplayName("추측결과 스트라이크, 볼 개수를 알 수 있다.")
     @Test
     void properties() {
-        final GuessAnswer answer = new GuessAnswer(2, 0);
+        final GuessAnswer answer = new GuessAnswer(3, 2, 0);
 
         assertAll(
                 () -> assertThat(answer.getStrikeCount()).isEqualTo(2),
@@ -38,7 +51,8 @@ class GuessAnswerTest {
             "0, 0, true",
     })
     void isNothing(int strikeCount, int ballCount, boolean expected) {
-        final GuessAnswer answer = new GuessAnswer(strikeCount, ballCount);
+        final int secretNumberSize = 3;
+        final GuessAnswer answer = new GuessAnswer(secretNumberSize, strikeCount, ballCount);
 
         boolean actual = answer.isNothing();
 
@@ -54,9 +68,24 @@ class GuessAnswerTest {
     })
     void countByHint(Hint hint1, Hint hint2, Hint hint3, int expectedStrikes, int expectedBalls) {
         final List<Hint> hints = Arrays.asList(hint1, hint2, hint3);
-        final GuessAnswer expectedAnswer = new GuessAnswer(expectedStrikes, expectedBalls);
+        final GuessAnswer expectedAnswer = new GuessAnswer(3, expectedStrikes, expectedBalls);
         final GuessAnswer actualAnswer = GuessAnswer.countByHint(hints);
 
         assertThat(actualAnswer).isEqualTo(expectedAnswer);
+    }
+
+    @DisplayName("추측이 성공했음을 알 수 있다.")
+    @ParameterizedTest(name = "{0}개 중 스트라이크: {1}, 볼: {2}, 추측 성공여부 = {3}")
+    @CsvSource({
+            "3, 3, 0, true",
+            "4, 4, 0, true",
+            "3, 2, 1, false"
+    })
+    void isCorrect(int secretNumberSize, int strikeCount, int ballCount, boolean expectedCorrect) {
+        final GuessAnswer answer = new GuessAnswer(secretNumberSize, strikeCount, ballCount);
+
+        final boolean actualCorrect = answer.isCorrect();
+
+        assertThat(actualCorrect).isEqualTo(expectedCorrect);
     }
 }
