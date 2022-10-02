@@ -23,4 +23,18 @@ public class Digits {
     public int size() {
         return elements.size();
     }
+
+    public Hint hintBy(int guessIndex, Digit guessDigit) {
+        validateGivenIndex(guessIndex);
+
+        final int indexInDigits = elements.indexOf(guessDigit);
+
+        return Hint.byIndexes(guessIndex, indexInDigits);
+    }
+
+    private void validateGivenIndex(int givenDigitIndex) {
+        if (givenDigitIndex >= elements.size()) {
+            throw new IndexOutOfBoundsException("Given digit index is out of bound: " + givenDigitIndex);
+        }
+    }
 }

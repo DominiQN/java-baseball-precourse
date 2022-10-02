@@ -1,10 +1,9 @@
 package baseball.domain;
 
+import static baseball.domain.DigitsUtil.digitsOf;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,14 +27,5 @@ public class SecretNumberTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> secretNumber.guess(guessDigits))
                 .withMessage("Guess digits size must be equal to secret number size!");
-    }
-
-    private Digits digitsOf(int... values) {
-        final List<Digit> digitList = new ArrayList<>();
-        for (int value : values) {
-            final Digit digit = new Digit(value);
-            digitList.add(digit);
-        }
-        return new Digits(digitList);
     }
 }
