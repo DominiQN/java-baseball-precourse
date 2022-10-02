@@ -1,5 +1,6 @@
 package baseball.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,17 +25,37 @@ public class Digits {
         return elements.size();
     }
 
-    public Hint hintBy(int guessIndex, Digit guessDigit) {
-        validateGivenIndex(guessIndex);
+    public GuessAnswer guess(Digits guessDigits) {
+        final List<Digit> guessElements = guessDigits.elements;
+        validateGuessDigitsSize(guessElements);
 
-        final int indexInDigits = elements.indexOf(guessDigit);
-
-        return Hint.byIndexes(guessIndex, indexInDigits);
+        final List<Hint> hints = hintByGuessDigits(guessElements);
+        return GuessAnswer.countByHint(hints);
     }
 
-    private void validateGivenIndex(int givenDigitIndex) {
-        if (givenDigitIndex >= elements.size()) {
-            throw new IndexOutOfBoundsException("Given digit index is out of bound: " + givenDigitIndex);
+    private List<Hint> hintByGuessDigits(List<Digit> guessDigits) {
+        final IndexedDigitIterator iterator = new IndexedDigitIterator(guessDigits);
+        final List<Hint> hints = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            IndexedDigit guessing = iterator.next();
+            final Hint hint = hintByGuessing(guessing);
+            hints.add(hint);
+        }
+        return hints;
+    }
+
+    private Hint hintByGuessing(IndexedDigit guessing) {
+        final int guessIndex = guessing.getIndex();
+        final Digit guessDigit = guessing.getDigit();
+        final int realIndex = this.elements.indexOf(guessDigit);
+
+        return Hint.byIndexes(guessIndex, realIndex);
+    }
+
+    private void validateGuessDigitsSize(List<Digit> guessDigits) {
+        if (guessDigits.size() != elements.size()) {
+            throw new IllegalArgumentException("Guess digits size must be equal to secret number size!");
         }
     }
 }

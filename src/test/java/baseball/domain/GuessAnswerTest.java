@@ -3,6 +3,8 @@ package baseball.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,5 +43,20 @@ class GuessAnswerTest {
         boolean actual = answer.isNothing();
 
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @ParameterizedTest(name = "{0}, {1}, {2}이면, 스트라이크: {3}, 볼: {4}이다.")
+    @CsvSource({
+            "BALL, BALL, STRIKE, 1, 2",
+            "STRIKE, BALL, BALL, 1, 2",
+            "FOUL, STRIKE, BALL, 1, 1",
+            "FOUL, FOUL, FOUL, 0, 0"
+    })
+    void countByHint(Hint hint1, Hint hint2, Hint hint3, int expectedStrikes, int expectedBalls) {
+        final List<Hint> hints = Arrays.asList(hint1, hint2, hint3);
+        final GuessAnswer expectedAnswer = new GuessAnswer(expectedStrikes, expectedBalls);
+        final GuessAnswer actualAnswer = GuessAnswer.countByHint(hints);
+
+        assertThat(actualAnswer).isEqualTo(expectedAnswer);
     }
 }

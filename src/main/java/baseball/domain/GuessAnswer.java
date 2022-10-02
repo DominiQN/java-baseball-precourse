@@ -1,5 +1,8 @@
 package baseball.domain;
 
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GuessAnswer {
@@ -9,6 +12,23 @@ public class GuessAnswer {
     public GuessAnswer(int strikeCount, int ballCount) {
         this.strikeCount = strikeCount;
         this.ballCount = ballCount;
+    }
+
+    public static GuessAnswer countByHint(List<Hint> hints) {
+        final Map<Hint, Integer> counting = new EnumMap<>(Hint.class);
+
+        for (Hint hint : hints) {
+            counting.merge(hint, 1, Integer::sum);
+        }
+
+        final int strikeCount = getHintCount(counting, Hint.STRIKE);
+        final int ballCount = getHintCount(counting, Hint.BALL);
+
+        return new GuessAnswer(strikeCount, ballCount);
+    }
+
+    private static int getHintCount(Map<Hint, Integer> counting, Hint hint) {
+        return counting.getOrDefault(hint, 0);
     }
 
     public int getStrikeCount() {

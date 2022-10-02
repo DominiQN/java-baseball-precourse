@@ -4,7 +4,6 @@ import static baseball.domain.DigitsUtil.digitsOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,31 +52,30 @@ class DigitsTest {
         assertThat(digits.size()).isEqualTo(digitList.size());
     }
 
-    @DisplayName("추측하는 위치가 숫자들 길이를 벗어나지 않아야 한다.")
+    @DisplayName("추측 숫자들은 비밀번호와 길이가 동일해야 한다.")
     @Test
-    void illegalHintIndex() {
-        final Digits digits = digitsOf(1, 2, 3);
+    void illegalGuessDigitsSize() {
+        final Digits secretNumber = digitsOf(1, 2, 3);
+        final Digits guessDigits = digitsOf(1, 2, 3, 4);
 
-        assertThatThrownBy(() -> digits.hintBy(5, new Digit(1)))
-                .isInstanceOf(IndexOutOfBoundsException.class)
-                .hasMessageMatching("Given digit index is out of bound: +\\w");
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> secretNumber.guess(guessDigits))
+                .withMessage("Guess digits size must be equal to secret number size!");
     }
 
     @DisplayName("주어진 숫자가 숫자들에 없으면 낫싱, 포함되어 있지만 위치가 다르면 볼, 포함되어 있고 위치도 같으면 스트라이크다.")
-    @ParameterizedTest(name = "index {0}에 숫자 {1}이 있는지 추측하면, {2}를 힌트로 받는다.")
+    @ParameterizedTest(name = "비밀번호 425 일때, {0}{1}{2}를 입력하면 스트라이크: {3}, 볼: {4}이다.")
     @CsvSource({
-            "0,1,STRIKE",
-            "1,2,STRIKE",
-            "2,3,STRIKE",
-            "0,2,BALL",
-            "0,4,FOUL"
+            "1,2,3, 1,0",
+            "4,5,6, 1,1",
+            "7,8,9, 0,0"
     })
-    void hint(int givenDigitIndex, int givenDigitValue, Hint expectedHint) {
-        final Digits digits = digitsOf(1, 2, 3);
-        final Digit givenDigit = new Digit(givenDigitValue);
+    void hint(int guess1st, int guess2nd, int guess3rd, int expectedStrikes, int expectedBalls) {
+        final Digits secret = digitsOf(4, 2, 5);
+        final Digits guessDigits = digitsOf(guess1st, guess2nd, guess3rd);
+        final GuessAnswer expectedAnswer = new GuessAnswer(expectedStrikes, expectedBalls);
+        final GuessAnswer actualAnswer = secret.guess(guessDigits);
 
-        final Hint actualHint = digits.hintBy(givenDigitIndex, givenDigit);
-
-        assertThat(actualHint).isEqualTo(expectedHint);
+        assertThat(actualAnswer).isEqualTo(expectedAnswer);
     }
 }
