@@ -1,4 +1,4 @@
-package baseball.domain;
+package baseball.domain.digits;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package baseball.domain;
+package baseball.domain.digits;
 
 import java.util.EnumMap;
 import java.util.List;

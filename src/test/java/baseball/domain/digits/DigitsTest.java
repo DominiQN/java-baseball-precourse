@@ -1,6 +1,6 @@
-package baseball.domain;
+package baseball.domain.digits;
 
-import static baseball.domain.DigitsUtil.digitsOf;
+import static baseball.domain.digits.DigitsUtil.digitsOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;

@@ -1,11 +1,11 @@
-package baseball.domain;
+package baseball.domain.digits;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class IndexedDigitIteratorTest {
@@ -19,14 +19,14 @@ class IndexedDigitIteratorTest {
         final Iterator<IndexedDigit> digitIterator = new IndexedDigitIterator(digits);
 
         assertAll(
-                () -> assertThat(digitIterator).hasNext().isNotNull(),
-                () -> assertThat(digitIterator).toIterable()
+                () -> Assertions.assertThat(digitIterator).hasNext().isNotNull(),
+                () -> Assertions.assertThat(digitIterator).toIterable()
                         .containsExactly(
                                 new IndexedDigit(new Digit(2), 0),
                                 new IndexedDigit(new Digit(1), 1),
                                 new IndexedDigit(new Digit(4), 2)
                         ),
-                () -> assertThat(digitIterator).isExhausted()
+                () -> Assertions.assertThat(digitIterator).isExhausted()
         );
     }
 }

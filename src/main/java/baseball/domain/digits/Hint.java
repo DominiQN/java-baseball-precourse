@@ -1,4 +1,4 @@
-package baseball.domain;
+package baseball.domain.digits;
 
 public enum Hint {
     STRIKE,
