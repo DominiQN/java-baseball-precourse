@@ -14,6 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class DigitsTest {
+    @DisplayName("숫자들 내에 중복된 숫자가 없어야 한다.")
     @Test
     void duplicates() {
         final List<Digit> digitList = Arrays.asList(
@@ -27,6 +28,7 @@ class DigitsTest {
                 .withMessage("Duplicate number exists!!");
     }
 
+    @DisplayName("숫자들은 숫자 리스트로 생성된다.")
     @Test
     void create() {
         final List<Digit> digitList = Arrays.asList(
@@ -38,6 +40,7 @@ class DigitsTest {
                 .isThrownBy(() -> new Digits(digitList));
     }
 
+    @DisplayName("숫자들에 포함된 숫자 개수를 알 수 있다.")
     @Test
     void size() {
         final List<Digit> digitList = Arrays.asList(
