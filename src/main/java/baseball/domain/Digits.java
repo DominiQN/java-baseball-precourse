@@ -19,4 +19,8 @@ public class Digits {
             throw new IllegalArgumentException("Duplicate number exists!!");
         }
     }
+
+    public int size() {
+        return elements.size();
+    }
 }

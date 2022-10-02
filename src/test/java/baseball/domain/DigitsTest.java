@@ -1,5 +1,6 @@
 package baseball.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
@@ -30,5 +31,17 @@ class DigitsTest {
         );
         assertThatNoException()
                 .isThrownBy(() -> new Digits(digitList));
+    }
+
+    @Test
+    void size() {
+        final List<Digit> digitList = Arrays.asList(
+                new Digit(3),
+                new Digit(4),
+                new Digit(5)
+        );
+        final Digits digits = new Digits(digitList);
+
+        assertThat(digits.size()).isEqualTo(digitList.size());
     }
 }

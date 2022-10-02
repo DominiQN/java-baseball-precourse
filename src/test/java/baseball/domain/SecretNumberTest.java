@@ -1,5 +1,6 @@
 package baseball.domain;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import java.util.ArrayList;
@@ -15,6 +16,18 @@ public class SecretNumberTest {
 
         assertThatNoException()
                 .isThrownBy(() -> new SecretNumber(digits));
+    }
+
+    @DisplayName("추측 숫자들은 비밀번호와 길이가 동일해야 한다.")
+    @Test
+    void illegalGuessDigitsSize() {
+        final Digits secretDigits = digitsOf(1, 2, 3);
+        final SecretNumber secretNumber = new SecretNumber(secretDigits);
+        final Digits guessDigits = digitsOf(1, 2, 3, 4);
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> secretNumber.guess(guessDigits))
+                .withMessage("Guess digits size must be equal to secret number size!");
     }
 
     private Digits digitsOf(int... values) {
