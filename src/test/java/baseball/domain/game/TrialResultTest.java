@@ -74,6 +74,11 @@ class TrialResultTest {
             public GameState guess(Digits guessDigits) {
                 return null;
             }
+
+            @Override
+            public GameState finish() {
+                return null;
+            }
         };
     }
 }

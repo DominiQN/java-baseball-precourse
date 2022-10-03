@@ -57,4 +57,11 @@ class FinishedTest {
     void isFinished() {
         assertThat(finished.isFinished()).isTrue();
     }
+
+    @DisplayName("종료되었기에 별 변화 없다.")
+    @Test
+    void finish() {
+        final GameState nextState = finished.finish();
+        assertThat(nextState).isSameAs(finished);
+    }
 }

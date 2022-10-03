@@ -25,4 +25,9 @@ abstract class Guessable implements GameState {
     public boolean isFinished() {
         return false;
     }
+
+    @Override
+    public GameState finish() {
+        throw new IllegalStateException("The game is in progress!");
+    }
 }

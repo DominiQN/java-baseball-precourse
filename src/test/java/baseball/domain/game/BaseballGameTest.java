@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import baseball.domain.SecretNumberGenerator;
 import baseball.domain.digits.Digits;
@@ -17,6 +18,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 class BaseballGameTest {
     private static final SecretNumberGenerator ALWAYS_123_GENERATOR = new Always123DigitsGenerator();
     private static final int SECRET_SIZE_3 = 3;
+
+    private final BaseballGame game = new BaseballGame(ALWAYS_123_GENERATOR, SECRET_SIZE_3);
 
     @ParameterizedTest(name = "비밀번호는 1 ~ 8 사이의 길이만 가능하다. size: {0}")
     @ValueSource(ints = {-1, 0, 9})
@@ -59,7 +62,6 @@ class BaseballGameTest {
             boolean expectedNothing,
             boolean expectedCorrect
     ) {
-        final BaseballGame game = new BaseballGame(ALWAYS_123_GENERATOR, SECRET_SIZE_3);
         final Digits guessDigits = digitsOf(guess1st, guess2nd, guess3rd);
         final TrialResult expected = new TrialResult(
                 expectedCorrect,
@@ -71,5 +73,29 @@ class BaseballGameTest {
         final TrialResult actual = game.tryGuess(guessDigits);
 
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("맞추기 전에는 게임을 종료할 수 없다.")
+    @Test
+    void finishInProgress() {
+        assertThatIllegalStateException()
+                .isThrownBy(() -> game.finish())
+                .withMessage("The game is in progress!");
+    }
+
+    @DisplayName("맞춘 후 게임 종료를 원하면 종료된다.")
+    @Test
+    void finish() {
+        final Digits guessDigits = digitsOf(1, 2, 3);
+        game.tryGuess(guessDigits);
+        final boolean isFinishedBeforeAction = game.isFinished();
+
+        game.finish();
+        final boolean isFinishedAfterAction = game.isFinished();
+
+        assertAll(
+                () -> assertThat(isFinishedBeforeAction).isFalse(),
+                () -> assertThat(isFinishedAfterAction).isTrue()
+        );
     }
 }

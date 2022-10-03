@@ -14,4 +14,6 @@ public interface GameState {
     boolean isFinished();
 
     GameState guess(Digits guessDigits);
+
+    GameState finish();
 }

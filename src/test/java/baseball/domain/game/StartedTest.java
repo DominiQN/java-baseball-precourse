@@ -3,6 +3,7 @@ package baseball.domain.game;
 import static baseball.domain.digits.DigitsUtil.digitsOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -51,6 +52,14 @@ class StartedTest {
     @Test
     void isFinished() {
         assertThat(started.isFinished()).isFalse();
+    }
+
+    @DisplayName("맞추기 전엔 종료할 수 없다")
+    @Test
+    void finish() {
+        assertThatIllegalStateException()
+                .isThrownBy(() -> started.finish())
+                .withMessage("The game is in progress!");
     }
 
     @DisplayName("비밀번호와 추측한 숫자들의 길이가 같아야 한다.")

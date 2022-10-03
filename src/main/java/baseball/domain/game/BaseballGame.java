@@ -43,4 +43,12 @@ public class BaseballGame {
         this.state = state.guess(guessDigits);
         return new TrialResult(state);
     }
+
+    public void finish() {
+        this.state = state.finish();
+    }
+
+    public boolean isFinished() {
+        return this.state.isFinished();
+    }
 }

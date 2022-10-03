@@ -70,4 +70,12 @@ class CorrectTest {
                 .isThrownBy(() -> correct.guess(guessDigits))
                 .withMessage("The secret number is successfully guessed!");
     }
+
+    @DisplayName("종료하면 종료된다.")
+    @Test
+    void finish() {
+        final GameState nextState = correct.finish();
+
+        assertThat(nextState.isFinished()).isTrue();
+    }
 }

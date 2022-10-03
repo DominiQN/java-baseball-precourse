@@ -46,4 +46,9 @@ public class Correct implements GameState {
     public GameState guess(Digits guessDigits) {
         throw new IllegalStateException("The secret number is successfully guessed!");
     }
+
+    @Override
+    public GameState finish() {
+        return new Finished();
+    }
 }

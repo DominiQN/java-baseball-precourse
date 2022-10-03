@@ -66,6 +66,14 @@ class IncorrectTest {
         assertThat(incorrect.isFinished()).isFalse();
     }
 
+    @DisplayName("맞추기 전엔 종료할 수 없다")
+    @Test
+    void finish() {
+        assertThatIllegalStateException()
+                .isThrownBy(() -> incorrect.finish())
+                .withMessage("The game is in progress!");
+    }
+
     @DisplayName("비밀번호와 추측한 숫자들의 길이가 같아야 한다.")
     @Test
     void illegalGuessNumberSize() {

@@ -33,6 +33,11 @@ public class Finished implements GameState {
         throw error();
     }
 
+    @Override
+    public GameState finish() {
+        return this;
+    }
+
     private IllegalStateException error() {
         return new IllegalStateException("The game is finished.");
     }
