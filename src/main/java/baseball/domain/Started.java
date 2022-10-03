@@ -1,12 +1,11 @@
 package baseball.domain;
 
 import baseball.domain.digits.Digits;
-import baseball.domain.digits.GuessAnswer;
 
-public class GameSet {
+public class Started implements GameState {
     private final Digits secretNumber;
 
-    public GameSet(int secretNumberSize, SecretNumberGenerator secretNumberGenerator) {
+    public Started(int secretNumberSize, SecretNumberGenerator secretNumberGenerator) {
         final Digits generatedSecretNumber = secretNumberGenerator.generate(secretNumberSize);
 
         validateSecretNumberSize(secretNumberSize, generatedSecretNumber.size());
@@ -20,7 +19,33 @@ public class GameSet {
         }
     }
 
-    public GuessAnswer guess(Digits guessDigits) {
-        return this.secretNumber.guess(guessDigits);
+    @Override
+    public boolean isCorrect() {
+        return false;
+    }
+
+    @Override
+    public boolean isNothing() {
+        return true;
+    }
+
+    @Override
+    public int countStrikes() {
+        return 0;
+    }
+
+    @Override
+    public int countBalls() {
+        return 0;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public GameState guess(Digits guessDigits) {
+        return null;
     }
 }
