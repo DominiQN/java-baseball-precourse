@@ -5,10 +5,10 @@ import baseball.domain.digits.Digits;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuessRequest {
+public class GuessInput {
     private final Digits guessDigit;
 
-    public GuessRequest(List<Integer> digitIntegers) {
+    public GuessInput(List<Integer> digitIntegers) {
         final List<Digit> digitList = parseDigits(digitIntegers);
 
         this.guessDigit = new Digits(digitList);

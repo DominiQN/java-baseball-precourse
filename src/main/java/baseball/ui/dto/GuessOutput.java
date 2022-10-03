@@ -2,10 +2,10 @@ package baseball.ui.dto;
 
 import baseball.domain.game.TrialResult;
 
-public class GuessResponse {
+public class GuessOutput {
     private final TrialResult trialResult;
 
-    public GuessResponse(TrialResult result) {
+    public GuessOutput(TrialResult result) {
         this.trialResult = result;
     }
 

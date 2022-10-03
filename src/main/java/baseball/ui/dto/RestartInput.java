@@ -1,9 +1,9 @@
 package baseball.ui.dto;
 
-public class RestartRequest {
+public class RestartInput {
     private boolean isRestarted;
 
-    public RestartRequest(boolean isRestarted) {
+    public RestartInput(boolean isRestarted) {
         this.isRestarted = isRestarted;
     }
 
