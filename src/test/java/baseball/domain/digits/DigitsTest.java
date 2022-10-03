@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,15 @@ class DigitsTest {
         final Digits digits = digitsOf(3, 4, 5);
 
         assertThat(digits.size()).isEqualTo(digitList.size());
+    }
+
+    @DisplayName("숫자들은 비어 있지 않아야 한다.")
+    @Test
+    void notEmpty() {
+        final List<Digit> empty = Collections.emptyList();
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Digits(empty))
+                .withMessage("Digits must not be empty!");
     }
 
     @DisplayName("추측 숫자들은 비밀번호와 길이가 동일해야 한다.")

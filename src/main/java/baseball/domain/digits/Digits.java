@@ -10,7 +10,7 @@ public class Digits {
 
     public Digits(List<Digit> elements) {
         validateDuplicates(elements);
-
+        requireNotEmpty(elements);
         this.elements = elements;
     }
 
@@ -18,6 +18,12 @@ public class Digits {
         final Set<Digit> distinctElements = new HashSet<>(elements);
         if (elements.size() != distinctElements.size()) {
             throw new IllegalArgumentException("Duplicate number exists!!");
+        }
+    }
+
+    private void requireNotEmpty(List<Digit> elements) {
+        if (elements.isEmpty()) {
+            throw new IllegalArgumentException("Digits must not be empty!");
         }
     }
 
