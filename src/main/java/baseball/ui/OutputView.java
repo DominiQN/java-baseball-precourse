@@ -7,6 +7,7 @@ public class OutputView {
         printBallCount(guessResponse.getBallCount());
         printStrikeCount(guessResponse.getStrikeCount());
         printNothing(guessResponse.isNothing());
+        System.out.println();
         printCorrect(guessResponse.isCorrect(), secretNumberSize);
     }
 
@@ -18,13 +19,13 @@ public class OutputView {
 
     private static void printStrikeCount(int strikeCount) {
         if (strikeCount > 0) {
-            System.out.println(strikeCount + "스트라이크 ");
+            System.out.print(strikeCount + "스트라이크 ");
         }
     }
 
     private static void printNothing(boolean isNothing) {
         if (isNothing) {
-            System.out.println("낫싱");
+            System.out.print("낫싱");
         }
     }
 

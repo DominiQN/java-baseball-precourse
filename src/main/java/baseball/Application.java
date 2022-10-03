@@ -8,6 +8,7 @@ import baseball.ui.InputView;
 import baseball.ui.OutputView;
 import baseball.ui.dto.GuessRequest;
 import baseball.ui.dto.GuessResponse;
+import baseball.ui.dto.RestartRequest;
 
 public class Application {
     public static final int SECRET_NUMBER_SIZE = 3;
@@ -16,7 +17,19 @@ public class Application {
     public static void main(String[] args) {
         final BaseballGame game = runGame();
 
-        playOneSet(game);
+        while (!game.isFinished()) {
+            playOneSet(game);
+            restartOrFinish(game);
+        }
+    }
+
+    private static void restartOrFinish(BaseballGame game) {
+        final RestartRequest request = InputView.inputRestart();
+        if (request.isRestarted()) {
+            game.restart();
+        } else {
+            game.finish();
+        }
     }
 
     private static void playOneSet(BaseballGame game) {
