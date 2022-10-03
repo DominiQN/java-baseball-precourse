@@ -1,7 +1,8 @@
-package baseball.domain;
+package baseball.domain.game;
 
 import static baseball.domain.digits.DigitsUtil.digitsOf;
 
+import baseball.domain.SecretNumberGenerator;
 import baseball.domain.digits.Digits;
 
 class Always123DigitsGenerator implements SecretNumberGenerator {
