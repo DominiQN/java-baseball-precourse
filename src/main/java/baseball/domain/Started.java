@@ -2,21 +2,9 @@ package baseball.domain;
 
 import baseball.domain.digits.Digits;
 
-public class Started implements GameState {
-    private final Digits secretNumber;
-
-    public Started(int secretNumberSize, SecretNumberGenerator secretNumberGenerator) {
-        final Digits generatedSecretNumber = secretNumberGenerator.generate(secretNumberSize);
-
-        validateSecretNumberSize(secretNumberSize, generatedSecretNumber.size());
-
-        this.secretNumber = generatedSecretNumber;
-    }
-
-    private void validateSecretNumberSize(int requestedSize, int generatedSize) {
-        if (generatedSize != requestedSize) {
-            throw new IllegalStateException("Requested size: " + requestedSize + ", Generated size: " + generatedSize);
-        }
+public class Started extends Guessable {
+    public Started(Digits secretNumber) {
+        super(secretNumber);
     }
 
     @Override
@@ -37,15 +25,5 @@ public class Started implements GameState {
     @Override
     public int countBalls() {
         return 0;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public GameState guess(Digits guessDigits) {
-        return null;
     }
 }

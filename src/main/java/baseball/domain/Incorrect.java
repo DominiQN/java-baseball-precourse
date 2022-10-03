@@ -3,14 +3,13 @@ package baseball.domain;
 import baseball.domain.digits.Digits;
 import baseball.domain.digits.GuessAnswer;
 
-public class Incorrect implements GameState {
+public class Incorrect extends Guessable {
     private final GuessAnswer previousGuessAnswer;
-    private final Digits secretNumber;
 
     public Incorrect(Digits secretNumber, GuessAnswer previousGuessAnswer) {
+        super(secretNumber);
         checkIncorrect(previousGuessAnswer);
         this.previousGuessAnswer = previousGuessAnswer;
-        this.secretNumber = secretNumber;
     }
 
     private static void checkIncorrect(GuessAnswer previousGuessAnswer) {
@@ -37,15 +36,5 @@ public class Incorrect implements GameState {
     @Override
     public int countBalls() {
         return previousGuessAnswer.getBallCount();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public GameState guess(Digits guessDigits) {
-        return null;
     }
 }
