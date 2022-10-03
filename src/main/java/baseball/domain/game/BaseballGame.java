@@ -55,4 +55,8 @@ public class BaseballGame {
     public void restart() {
         this.state = state.startNewGame(generateSecretNumber());
     }
+
+    public boolean isCorrect() {
+        return this.state.isCorrect();
+    }
 }

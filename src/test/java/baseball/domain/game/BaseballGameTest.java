@@ -75,6 +75,21 @@ class BaseballGameTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @DisplayName("맞추면 맞춘 사실을 알 수 있다.")
+    @ParameterizedTest(name = "비밀번호 123일 때, {0}{1}{2}이면 맞춤 여부: {3}")
+    @CsvSource({
+            "1,2,3, true",
+            "1,3,5, false"
+    })
+    void isCorrect(int guess1st, int guess2nd, int guess3rd, boolean expectedCorrect) {
+        final Digits guessDigits = digitsOf(guess1st, guess2nd, guess3rd);
+
+        game.tryGuess(guessDigits);
+        final boolean actualCorrect = game.isCorrect();
+
+        assertThat(actualCorrect).isEqualTo(expectedCorrect);
+    }
+
     @DisplayName("맞추기 전에는 게임을 종료할 수 없다.")
     @Test
     void finishInProgress() {
