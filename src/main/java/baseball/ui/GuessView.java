@@ -3,29 +3,17 @@ package baseball.ui;
 import static camp.nextstep.edu.missionutils.Console.readLine;
 import static java.lang.Integer.parseInt;
 
+import baseball.domain.digits.Digits;
 import baseball.ui.dto.GuessInput;
 import baseball.ui.dto.GuessOutput;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class GuessView {
     public static GuessInput inputGuess() {
         System.out.print("숫자를 입력해주세요 :");
         final String input = readLine();
         final int inputInteger = parseInt(input);
-        final List<Integer> digits = splitDigits(inputInteger);
+        final Digits digits = DigitsSplitter.split(inputInteger);
         return new GuessInput(digits);
-    }
-
-    private static List<Integer> splitDigits(int integer) {
-        final List<Integer> digits = new ArrayList<>();
-        while (integer > 0) {
-            digits.add(integer % 10);
-            integer /= 10;
-        }
-        Collections.reverse(digits);
-        return digits;
     }
 
     public static void printGuessResult(GuessOutput guessOutput, int secretNumberSize) {
