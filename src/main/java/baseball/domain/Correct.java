@@ -1,12 +1,20 @@
 package baseball.domain;
 
 import baseball.domain.digits.Digits;
+import baseball.domain.digits.GuessAnswer;
 
 public class Correct implements GameState {
-    private final Digits secretNumber;
+    private final GuessAnswer previousGuessAnswer;
 
-    public Correct(Digits secretNumber) {
-        this.secretNumber = secretNumber;
+    public Correct(GuessAnswer previousGuessAnswer) {
+        checkCorrect(previousGuessAnswer);
+        this.previousGuessAnswer = previousGuessAnswer;
+    }
+
+    private void checkCorrect(GuessAnswer previousGuessAnswer) {
+        if (!previousGuessAnswer.isCorrect()) {
+            throw new IllegalStateException("Previous guess answer is not correct!");
+        }
     }
 
     @Override
@@ -21,7 +29,7 @@ public class Correct implements GameState {
 
     @Override
     public int countStrikes() {
-        return secretNumber.size();
+        return previousGuessAnswer.getStrikeCount();
     }
 
     @Override

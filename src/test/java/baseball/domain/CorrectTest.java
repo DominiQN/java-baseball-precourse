@@ -6,19 +6,30 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import baseball.domain.digits.Digits;
+import baseball.domain.digits.GuessAnswer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CorrectTest {
-    private static final Digits SECRET_NUMBER = digitsOf(1, 2, 3);
-    private final GameState correct = new Correct(SECRET_NUMBER);
+    private static final GuessAnswer PREV_GUESS_ANSWER = new GuessAnswer(3, 3, 0);
+    private final GameState correct = new Correct(PREV_GUESS_ANSWER);
 
-    @DisplayName("비밀번호로 생성된다.")
+    @DisplayName("이전 추측결과 맞췄어야 한다.")
+    @Test
+    void illegalGuessAnswer() {
+        final GuessAnswer prevGuessAnswer = new GuessAnswer(3, 2, 1);
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> new Correct(prevGuessAnswer))
+                .withMessage("Previous guess answer is not correct!");
+    }
+
+    @DisplayName("추측결과로 생성된다.")
     @Test
     void construct() {
-        final Digits secretNumber = digitsOf(1, 2, 3);
+        final GuessAnswer prevGuessAnswer = new GuessAnswer(3, 3, 0);
         assertThatNoException()
-                .isThrownBy(() -> new Correct(secretNumber));
+                .isThrownBy(() -> new Correct(prevGuessAnswer));
     }
 
     @DisplayName("맞췄다.")
