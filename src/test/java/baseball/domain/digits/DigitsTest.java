@@ -53,6 +53,24 @@ class DigitsTest {
         assertThat(digits.size()).isEqualTo(digitList.size());
     }
 
+    @Test
+    void equality() {
+        final List<Digit> oneList = Arrays.asList(
+                new Digit(1),
+                new Digit(3),
+                new Digit(5)
+        );
+        final Digits one = new Digits(oneList);
+        final List<Digit> anotherList = Arrays.asList(
+                new Digit(1),
+                new Digit(3),
+                new Digit(5)
+        );
+        final Digits another = new Digits(oneList);
+
+        assertThat(one).isEqualTo(another);
+    }
+
     @DisplayName("숫자들은 비어 있지 않아야 한다.")
     @Test
     void notEmpty() {
