@@ -27,9 +27,9 @@ public class Application {
         final RestartInput request = RestartView.inputRestartOrNot();
         if (request.isRestarted()) {
             game.restart();
-        } else {
-            game.finish();
+            return;
         }
+        game.finish();
     }
 
     private static void playOneSet(BaseballGame game) {
