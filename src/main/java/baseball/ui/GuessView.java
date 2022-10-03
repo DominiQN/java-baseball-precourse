@@ -10,10 +10,24 @@ import baseball.ui.dto.GuessOutput;
 public class GuessView {
     public static GuessInput inputGuess() {
         System.out.print("숫자를 입력해주세요 :");
-        final String input = readLine();
-        final int inputInteger = parseInt(input);
-        final Digits digits = DigitsSplitter.split(inputInteger);
+        final Digits digits = readDigits();
         return new GuessInput(digits);
+    }
+
+    private static Digits readDigits() {
+        final int inputInteger = readInteger();
+        return DigitsSplitter.split(inputInteger);
+    }
+
+    private static int readInteger() {
+        try {
+            final String input = readLine().trim();
+            return parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+            System.out.println("숫자 하나를 입력해주세요. :");
+            return readInteger();
+        }
     }
 
     public static void printGuessResult(GuessOutput guessOutput, int secretNumberSize) {
