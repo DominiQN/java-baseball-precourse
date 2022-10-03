@@ -38,4 +38,9 @@ public class BaseballGame {
             );
         }
     }
+
+    public TrialResult tryGuess(Digits guessDigits) {
+        this.state = state.guess(guessDigits);
+        return new TrialResult(state);
+    }
 }
