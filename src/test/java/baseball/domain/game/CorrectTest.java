@@ -78,4 +78,12 @@ class CorrectTest {
 
         assertThat(nextState.isFinished()).isTrue();
     }
+
+    @Test
+    void startNewGame() {
+        final Digits newSecretNumber = digitsOf(1, 2, 3);
+        final GameState nextState = correct.startNewGame(newSecretNumber);
+
+        assertThat(nextState).isExactlyInstanceOf(Started.class);
+    }
 }

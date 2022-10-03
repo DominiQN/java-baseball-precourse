@@ -64,4 +64,12 @@ class FinishedTest {
         final GameState nextState = finished.finish();
         assertThat(nextState).isSameAs(finished);
     }
+
+    @Test
+    void startNewGame() {
+        final Digits newSecretNumber = digitsOf(1, 2, 3);
+        assertThatIllegalStateException()
+                .isThrownBy(() -> finished.startNewGame(newSecretNumber))
+                .withMessage("The game is finished.");
+    }
 }

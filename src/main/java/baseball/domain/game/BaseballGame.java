@@ -51,4 +51,8 @@ public class BaseballGame {
     public boolean isFinished() {
         return this.state.isFinished();
     }
+
+    public void restart() {
+        this.state = state.startNewGame(generateSecretNumber());
+    }
 }

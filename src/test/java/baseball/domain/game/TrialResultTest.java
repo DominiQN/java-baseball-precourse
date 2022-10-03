@@ -79,6 +79,11 @@ class TrialResultTest {
             public GameState finish() {
                 return null;
             }
+
+            @Override
+            public GameState startNewGame(Digits newSecretNumber) {
+                return null;
+            }
         };
     }
 }

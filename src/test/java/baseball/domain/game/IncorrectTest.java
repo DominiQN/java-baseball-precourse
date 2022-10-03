@@ -74,6 +74,14 @@ class IncorrectTest {
                 .withMessage("The game is in progress!");
     }
 
+    @DisplayName("맞추기 전엔 새로운 게임을 시작할 수 없다")
+    @Test
+    void startNewGame() {
+        assertThatIllegalStateException()
+                .isThrownBy(() -> incorrect.startNewGame(SECRET_NUMBER))
+                .withMessage("The game is in progress!");
+    }
+
     @DisplayName("비밀번호와 추측한 숫자들의 길이가 같아야 한다.")
     @Test
     void illegalGuessNumberSize() {

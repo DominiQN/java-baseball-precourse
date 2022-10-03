@@ -98,4 +98,33 @@ class BaseballGameTest {
                 () -> assertThat(isFinishedAfterAction).isTrue()
         );
     }
+
+    @DisplayName("맞추기 전에는 다시 시작을 할 수 없다.")
+    @Test
+    void restartInProgress() {
+        final Digits incorrectDigits = digitsOf(1, 3, 5);
+        game.tryGuess(incorrectDigits);
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> game.restart())
+                .withMessage("The game is in progress!");
+    }
+
+    @DisplayName("맞춘 후 다시 시작을 원하면 새로 시작된다.")
+    @Test
+    void restart() {
+        final Digits correctDigits = digitsOf(1, 2, 3);
+        final TrialResult correctResult = game.tryGuess(correctDigits);
+        final boolean isCorrectBeforeAction = correctResult.isCorrect();
+
+        final Digits wrongDigits = digitsOf(4, 5, 6);
+        game.restart();
+        final TrialResult incorrectResult = game.tryGuess(wrongDigits);
+        final boolean isIncorrectAfterAction = incorrectResult.isCorrect();
+
+        assertAll(
+                () -> assertThat(isCorrectBeforeAction).isTrue(),
+                () -> assertThat(isIncorrectAfterAction).isFalse()
+        );
+    }
 }

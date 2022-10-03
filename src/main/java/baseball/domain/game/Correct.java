@@ -51,4 +51,9 @@ public class Correct implements GameState {
     public GameState finish() {
         return new Finished();
     }
+
+    @Override
+    public GameState startNewGame(Digits newSecretNumber) {
+        return new Started(newSecretNumber);
+    }
 }

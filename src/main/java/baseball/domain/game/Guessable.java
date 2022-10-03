@@ -30,4 +30,9 @@ abstract class Guessable implements GameState {
     public GameState finish() {
         throw new IllegalStateException("The game is in progress!");
     }
+
+    @Override
+    public GameState startNewGame(Digits newSecretNumber) {
+        throw new IllegalStateException("The game is in progress!");
+    }
 }

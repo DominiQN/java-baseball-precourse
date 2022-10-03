@@ -38,6 +38,11 @@ public class Finished implements GameState {
         return this;
     }
 
+    @Override
+    public GameState startNewGame(Digits newSecretNumber) {
+        throw error();
+    }
+
     private IllegalStateException error() {
         return new IllegalStateException("The game is finished.");
     }

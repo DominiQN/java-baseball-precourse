@@ -16,4 +16,6 @@ public interface GameState {
     GameState guess(Digits guessDigits);
 
     GameState finish();
+
+    GameState startNewGame(Digits newSecretNumber);
 }
