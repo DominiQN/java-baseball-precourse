@@ -1,56 +1,69 @@
-package baseball.domain;
+package baseball.domain.game;
 
 import static baseball.domain.digits.DigitsUtil.digitsOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import baseball.domain.digits.Digits;
+import baseball.domain.digits.GuessAnswer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class StartedTest {
+class IncorrectTest {
     private static final Digits SECRET_NUMBER = digitsOf(1, 2, 3);
-    private final GameState started = new Started(SECRET_NUMBER);
+    private static final GuessAnswer PREV_GUESS_ANSWER = new GuessAnswer(3, 1, 2);
+    private final GameState incorrect = new Incorrect(SECRET_NUMBER, PREV_GUESS_ANSWER);
 
-    @DisplayName("비밀번호로 생성된다.")
+    @DisplayName("비밀번호와 이전 추측결과로 생성된다.")
     @Test
     void construct() {
         assertThatNoException()
-                .isThrownBy(() -> new Started(SECRET_NUMBER));
+                .isThrownBy(() -> new Incorrect(SECRET_NUMBER, PREV_GUESS_ANSWER));
     }
 
-    @DisplayName("시작했기에 아직 맞추지 못했다.")
+    @DisplayName("이전 추측결과 맞추지 못했어야 한다.")
+    @Test
+    void illegalGuessAnswer() {
+        final GuessAnswer prevGuessAnswer = new GuessAnswer(3, 3, 0);
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> new Incorrect(SECRET_NUMBER, prevGuessAnswer))
+                .withMessage("Previous guess answer is correct!");
+    }
+
+    @DisplayName("맞추지 못했다.")
     @Test
     void correct() {
-        assertThat(started.isCorrect()).isFalse();
+        assertThat(incorrect.isCorrect()).isFalse();
     }
 
-    @DisplayName("시작했기에 스트라이크 개수는 0이다.")
+    @DisplayName("스트라이크 개수는 이전 추측결과의 개수이다.")
     @Test
     void countStrikes() {
-        assertThat(started.countStrikes()).isZero();
+        assertThat(incorrect.countStrikes()).isEqualTo(1);
     }
 
-    @DisplayName("시작했기에 볼 개수는 0이다.")
+    @DisplayName("볼 개수는 이전 추측결과의 개수이다.")
     @Test
     void countBalls() {
-        assertThat(started.countBalls()).isZero();
+        assertThat(incorrect.countBalls()).isEqualTo(2);
     }
 
-    @DisplayName("시작했기에 낫싱이다.")
+    @DisplayName("낫싱은 이전 추측결과로 정해진다.")
     @Test
     void isNothing() {
-        assertThat(started.isNothing()).isTrue();
+        assertThat(incorrect.isNothing()).isEqualTo(false);
     }
 
     @DisplayName("종료되지 않았다.")
     @Test
     void isFinished() {
-        assertThat(started.isFinished()).isFalse();
+        assertThat(incorrect.isFinished()).isFalse();
     }
 
     @DisplayName("비밀번호와 추측한 숫자들의 길이가 같아야 한다.")
@@ -59,7 +72,7 @@ class StartedTest {
         final Digits guessDigits = digitsOf(1, 2, 3, 4);
 
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> started.guess(guessDigits))
+                .isThrownBy(() -> incorrect.guess(guessDigits))
                 .withMessage("Guess digits size must be equal to secret number size!");
 
     }
@@ -82,7 +95,7 @@ class StartedTest {
     ) {
         final Digits guessDigits = digitsOf(guess1st, guess2nd, guess3rd);
 
-        final GameState nextState = started.guess(guessDigits);
+        final GameState nextState = incorrect.guess(guessDigits);
 
         assertAll(
                 () -> assertThat(nextState.countStrikes()).isEqualTo(expectedStrikes),

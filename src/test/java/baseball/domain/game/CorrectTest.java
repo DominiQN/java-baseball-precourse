@@ -1,4 +1,4 @@
-package baseball.domain;
+package baseball.domain.game;
 
 import static baseball.domain.digits.DigitsUtil.digitsOf;
 import static org.assertj.core.api.Assertions.assertThat;

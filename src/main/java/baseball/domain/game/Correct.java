@@ -1,4 +1,4 @@
-package baseball.domain;
+package baseball.domain.game;
 
 import baseball.domain.digits.Digits;
 import baseball.domain.digits.GuessAnswer;
